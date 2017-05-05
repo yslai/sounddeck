@@ -3,7 +3,7 @@ PREFIX =	/usr/local/sounddeck
 PATH_A =	$(shell LC_ALL=C /usr/sbin/ldconfig -p | \
 		/usr/bin/sed "/x86-64.*libDeckLinkAPI\\.so/!d;\
 		s/.* => /\\\\\"/;s/$$/\\\\\"/;q")
-PATH_PA = 	$(shell LC_ALL=C /usr/sbin/ldconfig -p | \
+PATH_PA =	$(shell LC_ALL=C /usr/sbin/ldconfig -p | \
 		/usr/bin/sed "/x86-64.*libDeckLinkPreviewAPI\\.so/!d;\
 		s/.* => /\\\\\"/;s/$$/\\\\\"/;q")
 
@@ -29,20 +29,23 @@ CFLAGS +=	-Iinclude
 
 SRC_A  =	api.cc
 SOLIB_A =	libDeckLinkAPI.so
-CDEFINES_A =	-DPATH_A=$(PATH_A)
+#ifeq ($(PATH_A),)
+CDEFINES_A =
+#else
+#CDEFINES_A =	-DPATH_A=$(PATH_A)
+#endif
 
-SRC_PA  =	preview_api.cc
+SRC_PA	=	preview_api.cc
 SOLIB_PA =	libDeckLinkPreviewAPI.so
-CDEFINES_PA =	-DPATH_PA=$(PATH_PA)
 
 SOLIB =		$(SOLIB_A) $(SOLIB_PA)
 
-LDLIBS =	-lasound -lpulse
+LDLIBS =	-lasound
 
 COMPILE_A =	$(CXX) $(CFLAGS) $(CDEFINES_A) -shared -o $@ \
 		$(SRC_A) $(LDLIBS)
 
-COMPILE_PA =	$(CXX) $(CFLAGS) $(CDEFINES_PA) -shared -o $@ \
+COMPILE_PA =	$(CXX) $(CFLAGS) -shared -o $@ \
 		$(SRC_PA) $(LDLIBS)
 
 all:		$(SOLIB)
