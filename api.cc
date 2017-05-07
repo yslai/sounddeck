@@ -386,9 +386,6 @@ protected:
             return 0;
         }
 
-        const snd_pcm_channel_area_t *area;
-        snd_pcm_uframes_t offset;
-
         if (snd_pcm_state(_alsa_pcm) == SND_PCM_STATE_XRUN) {
             snd_pcm_prepare(_alsa_pcm);
         }

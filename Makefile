@@ -15,9 +15,7 @@ else
     CFLAGS =	-O2 -s
 endif
 CFLAGS +=	-std=c++03 -Wextra -Wall -Werror \
-		-Wno-unused-variable -Wno-unused-parameter \
-		-Wno-return-local-addr \
-		-fPIC
+		-Wno-unused-parameter -fPIC
 CFLAGS +=	-Wno-multichar -fno-rtti
 ifeq ($(findstring gcc,$(CXX)),g++)
     CFLAGS +=	-no-canonical-prefixes -Wno-builtin-macro-redefined \
